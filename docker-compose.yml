@@ -16,3 +16,14 @@ services:
     restart: always
     ports:
       - "7777:8080"
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: prod-app
+    ports:
+      - "8000:8000"
+    restart: always
+    depends_on:
+      - db
