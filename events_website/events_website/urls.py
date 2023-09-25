@@ -23,8 +23,7 @@ from drf_yasg.views import get_schema_view
 from rest_framework import permissions
 
 from events.urls import events_router
-from users.urls import users_router
-
+from users.urls import users_router, url_templates
 
 schema_view = get_schema_view(
    openapi.Info(
@@ -50,6 +49,7 @@ urlpatterns = [
          name='schema-redoc'),
 
 
-    path(r'', include(users_router.urls)),
-    path(r'', include(events_router.urls)),
-] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    path(r'api/', include(users_router.urls)),
+    path(r'api/', include(events_router.urls)),
+
+] + url_templates + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

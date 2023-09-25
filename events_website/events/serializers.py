@@ -2,9 +2,9 @@ from django.contrib.auth import get_user_model
 from rest_framework import serializers
 
 from events.models import Event
-from users.models import CustomUser
+from users.models import User
 
-User: CustomUser = get_user_model()
+User: User = get_user_model()
 
 
 class UserSerializer(serializers.ModelSerializer):

@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<div class="card mb-3 border-0 nth-shadow">
+    <div class="card-body">
+        <div class="card-title nth-card-title">
+            <h4>Регистрация на сайте</h4>
+        </div>
+        <form method="post" action="{% url 'register' %}"
+              enctype="multipart/form-data">
+            {% csrf_token %}
+            {% for field in form %}
+            <div class="row">
+                <div class="col">{{ field.label_tag }}</div>
+                <div class="col">{{ field }}</div>
+                {% if field.help_text %}
+                  <small>{{ field.help_text }}</small>
+                {% endif %}
+                {% if field.errors %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ field.errors }}
+                    </div>
+                {% endif %}
+            </div>
+            {% endfor %}
+            <!--                <div class="row">{{ form.as_p }}</div>-->
+            <button type="submit" class="btn btn-dark mt-2">
+                Зарегистрироваться
+            </button>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

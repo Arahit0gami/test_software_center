@@ -37,7 +37,7 @@ class UserManager(models.Manager):
         return self.get(**{self.model.USERNAME_FIELD: login})
 
 
-class CustomUser(AbstractBaseUser, PermissionsMixin):
+class User(AbstractBaseUser, PermissionsMixin):
 
     id = models.AutoField(primary_key=True)
     login = models.CharField(max_length=20, unique=True)

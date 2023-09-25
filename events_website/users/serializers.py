@@ -3,10 +3,10 @@ from django.contrib.auth.password_validation import validate_password
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 
-from .models import CustomUser
+from .models import User
 
 
-User: CustomUser = get_user_model()
+User: User = get_user_model()
 
 
 class UserLoginSerializer(serializers.Serializer):
