@@ -16,11 +16,12 @@ from rest_framework.authtoken.models import Token
 
 from events.models import Event
 from events.serializers import EventSerializer
-from .forms import UserRegisterForm, UserLoginForm
-from .models import User
-from .serializers import RegisterSerializer, UserLoginSerializer, \
+
+from users.forms import UserRegisterForm, UserLoginForm
+from users.models import User
+from users.serializers import RegisterSerializer, UserLoginSerializer, \
     UserBaseSerializer
-from .swagger_description import response_schema
+from users.swagger_description import response_schema
 
 
 class UserViewSet(viewsets.ModelViewSet):

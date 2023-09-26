@@ -1,6 +1,6 @@
 from rest_framework.routers import SimpleRouter
 
-from .views import EventViewSet
+from events.views import EventViewSet
 
 events_router = SimpleRouter()
 

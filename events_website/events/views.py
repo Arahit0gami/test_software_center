@@ -5,9 +5,10 @@ from rest_framework.decorators import action
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
-from .models import Event
-from .serializers import EventSerializer, EventCreateSerializer
-from .swagger_decription import response_schema_event, result_patch_del
+
+from events.models import Event
+from events.serializers import EventSerializer, EventCreateSerializer
+from events.swagger_decription import response_schema_event, result_patch_del
 
 
 class EventViewSet(viewsets.ModelViewSet):
