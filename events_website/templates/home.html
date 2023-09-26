@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<script>
+    localStorage.setItem('my_id', '{{ user.id }}');
+    localStorage.setItem('my_first_name', '{{ user.first_name }}');
+    localStorage.setItem('my_last_name', '{{ user.last_name }}');
+    localStorage.removeItem('activeEvent')
+    localStorage.removeItem('activeMyEvent')
+</script>
+
+<div class="container position-absolute top-0 start-0 m-3">
+    <div class="row p-3">
+        <div class="col-4">
+            <div class="fw-bold fs-3"> {{ user.first_name }} {{ user.last_name }}
+            </div>
+        </div>
+        <div class="col-4 ms-5">
+            <form method="post" action="{% url 'logout' %}">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-primary">Выйти</button>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-4 m-1">
+            <div class="row">
+                <div class="col">
+                    <ul class="list-group" role="tablist">
+                        <div class="row">
+                            <div class="fw-bold fs-3">Все события</div>
+                        </div>
+                        <div id="all-events"></div>
+                        <p></p>
+                        <div class="row">
+                            <div class="fw-bold fs-3">Мои события</div>
+                        </div>
+                        <div id="my-events"></div>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-1 vr ms-3 me-3 p-1">
+        </div>
+        <div class="col-4 m-3">
+            <!--            Заголовок-->
+            <div id="title-event" class="row fw-bold fs-3">
+            </div>
+            <!--            Описание события-->
+            <div id="event-description" class="row">
+            </div>
+            <!--            Дата события-->
+            <div id="date-event" class="row">
+            </div>
+            <p></p>
+            <p></p>
+            <div class="row fw-bold fs-3">
+                Участники
+            </div>
+            <div id='participants' class="row">
+            </div>
+            <p></p>
+            <p></p>
+            <div id='join-leave-event' class="row">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="informUser" tabindex="-1" aria-labelledby="exampleModalCenterTitle" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Информация об участнике</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                        aria-label="Закрыть"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col fw-bold fs-5">Имя</div>
+                    <div id="first-name-participant" class="col"></div>
+                </div>
+                <div class="row">
+                    <div class="col fw-bold fs-5">Фамилия</div>
+                    <div id="last-name-participant" class="col"></div>
+                </div>
+                <div class="row">
+                    <div class="col fw-bold fs-5">День рождения</div>
+                    <div id="date-birth-participant" class="col"></div>
+                </div>
+                <div class="row">
+                    <div class="col fw-bold fs-5">Дата регистрации</div>
+                    <div id="date-joined-participant" class="col"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary"
+                        data-bs-dismiss="modal">Закрыть
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% load static %}
+<script src="{% static 'home.js'%}"></script>
+
+
+{% endblock %}

@@ -1,8 +1,10 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.messages.views import SuccessMessageMixin
-from django.shortcuts import redirect
+from django.http import JsonResponse
+from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse_lazy
+from django.views import View
 from django.views.generic import CreateView, TemplateView
 from drf_yasg.utils import swagger_auto_schema, no_body
 from rest_framework import viewsets, status
@@ -16,7 +18,8 @@ from events.models import Event
 from events.serializers import EventSerializer
 from .forms import UserRegisterForm, UserLoginForm
 from .models import User
-from .serializers import RegisterSerializer, UserLoginSerializer
+from .serializers import RegisterSerializer, UserLoginSerializer, \
+    UserBaseSerializer
 from .swagger_description import response_schema
 
 
@@ -44,6 +47,7 @@ class UserViewSet(viewsets.ModelViewSet):
     @swagger_auto_schema(
         request_body=RegisterSerializer,
         responses={201: response_schema},
+        security=[],
     )
     @action(detail=False, methods=['post'])
     def register(self, request):
@@ -58,6 +62,7 @@ class UserViewSet(viewsets.ModelViewSet):
     @swagger_auto_schema(
         request_body=UserLoginSerializer,
         responses={200: response_schema},
+        security=[],
     )
     @action(detail=False, methods=['post'])
     def login(self, request):
@@ -84,6 +89,13 @@ class UserViewSet(viewsets.ModelViewSet):
             "token": token.key,
         }
         return result
+
+
+
+# --------------------------------------------------------------------------
+"""
+Код ниже идет, для задания в части визуальных страниц с использование форм и js
+"""
 
 
 class UserRegisterView(SuccessMessageMixin, CreateView):
@@ -138,9 +150,37 @@ class UserBaseView(LoginRequiredMixin, SuccessMessageMixin, TemplateView):
     template_name = 'home.html'
 
     def get(self, request, *args, **kwargs):
-        all_events = EventSerializer(Event.objects.all(), many=True).data
+        user_id = request.GET.get('user')
+        if user_id:
+            try:
+                user = User.objects.get(pk=user_id)
+            except Exception:
+                return JsonResponse(data={}, status=status.HTTP_404_NOT_FOUND)
+
+            return JsonResponse(
+                UserBaseSerializer(user).data, safe=False
+            )
         context = self.get_context_data(**kwargs)
         context['title'] = 'Информация о событиях'
-        context['all_events'] = all_events
         context['user'] = request.user
         return self.render_to_response(context)
+
+
+class EventsBaseView(LoginRequiredMixin, View):
+    login_url = 'login'
+
+    def get(self, request, *args, **kwargs):
+        all_events = EventSerializer(Event.objects.all(), many=True).data
+        return JsonResponse(all_events, safe=False)
+
+    def put(self, request):
+        event_id = request.GET.get('id')
+        event = get_object_or_404(Event, pk=event_id)
+        event.participants.add(request.user)
+        return JsonResponse(data={"result": True})
+
+    def delete(self, request):
+        event_id = request.GET.get('id')
+        event = get_object_or_404(Event, pk=event_id)
+        event.participants.remove(request.user)
+        return JsonResponse(data={"result": True})

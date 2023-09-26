@@ -9,6 +9,14 @@ from .models import User
 User: User = get_user_model()
 
 
+class UserBaseSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = (
+            'first_name', 'last_name', 'date_of_birth', 'date_joined'
+        )
+
+
 class UserLoginSerializer(serializers.Serializer):
     login = serializers.CharField(required=True)
     password = serializers.CharField(required=True)
