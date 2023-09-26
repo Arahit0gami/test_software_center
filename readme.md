@@ -17,7 +17,7 @@
 
 To get a local copy up and running, follow these simple example steps.
 
-## Описание к решению задания
+## Description of the task solution
 
 #### 1) Реализовано RestFullApi на DRF через обычный rest_framework.authtoken
 
