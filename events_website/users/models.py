@@ -41,8 +41,8 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     id = models.AutoField(primary_key=True)
     login = models.CharField(max_length=20, unique=True)
-    first_name = models.CharField(_("first name"), max_length=150)
-    last_name = models.CharField(_("last name"), max_length=150)
+    first_name = models.CharField(_("Имя"), max_length=150)
+    last_name = models.CharField(_("Фамилия"), max_length=150)
     date_of_birth = models.DateField(blank=True, null=True)
     is_staff = models.BooleanField(
         _("staff status"),

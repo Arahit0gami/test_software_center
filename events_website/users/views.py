@@ -11,7 +11,7 @@ from rest_framework import viewsets, status
 from rest_framework.decorators import action
 from rest_framework.exceptions import ValidationError, MethodNotAllowed
 from rest_framework.response import Response
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate, login
 from rest_framework.authtoken.models import Token
 
 from events.models import Event
@@ -109,15 +109,20 @@ class UserRegisterView(SuccessMessageMixin, CreateView):
     next_page = 'home'
     success_message = 'Вы успешно зарегистрировались. Можете войти на сайт!'
 
-    def dispatch(self, *args, **kwargs):
+    def dispatch(self, request, *args, **kwargs):
         if self.request.user.is_authenticated:
             return redirect(self.next_page)
-        return super().dispatch(*args, **kwargs)
+        return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Регистрация на сайте'
         return context
+
+    def form_valid(self, form):
+        valid = super().form_valid(form)
+        login(self.request, self.object)
+        return valid
 
 
 class UserLoginView(SuccessMessageMixin, LoginView):
