@@ -52,6 +52,10 @@ _Below is an example of how you can instruct your audience on installing and set
 ## Author
 [Kuzmenko Nikita](https://github.com/Arahit0gami)
 
+## P.S.
+На заметку тем, кто будет смотреть это тестовое задание. 
+Обратной связи от компании не поступало, поэтому я не знаю, насколько хорошо или плохо было выполнено задание.
+
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
