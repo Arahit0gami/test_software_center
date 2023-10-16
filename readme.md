@@ -50,7 +50,7 @@ _Below is an example of how you can instruct your audience on installing and set
 
 
 ## Author
-[Kuzmenko Nikita](https://github.com/Arahit0gami)
+[Kuzmenko Nikita](https://github.com/arahitogami)
 
 ## P.S.
 На заметку тем, кто будет смотреть это тестовое задание. 
